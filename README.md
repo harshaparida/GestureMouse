@@ -1,5 +1,5 @@
 # GestureMouse
-# Mouse Tracker using OpenCV and Hand Detection
+## Mouse Tracker using OpenCV and Hand Detection
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![OpenCV](https://img.shields.io/badge/OpenCV-4.5.5-green)](https://opencv.org/)
