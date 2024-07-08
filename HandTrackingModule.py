@@ -16,6 +16,7 @@ class HandDetector:
             min_tracking_confidence=self.trackCon
         )
         self.mpDraw = mp.solutions.drawing_utils
+        self.tipIds = [4, 8, 12, 16, 20]
 
     def findHands(self, img, draw=True):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -44,4 +45,22 @@ class HandDetector:
             bbox = [min(xList), min(yList), max(xList), max(yList)]
             if draw:
                 cv2.rectangle(img, (bbox[0] - 20, bbox[1] - 20), (bbox[2] + 20, bbox[3] + 20), (0, 255, 0), 2)
+        self.lmList = lmList
         return lmList, bbox
+
+    def fingersUp(self):
+        fingers = []
+        if len(self.lmList) != 0:
+            # Thumb
+            if self.lmList[self.tipIds[0]][1] > self.lmList[self.tipIds[0] - 1][1]:
+                fingers.append(1)
+            else:
+                fingers.append(0)
+
+            # Fingers
+            for id in range(1, 5):
+                if self.lmList[self.tipIds[id]][2] < self.lmList[self.tipIds[id] - 2][2]:
+                    fingers.append(1)
+                else:
+                    fingers.append(0)
+        return fingers

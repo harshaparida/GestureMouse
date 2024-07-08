@@ -6,12 +6,15 @@ import pyautogui
 
 
 wCam, hCam = 640, 480
+frameR = 100
 
 cap = cv2.VideoCapture(0)
 cap.set(3, wCam)
 cap.set(4, hCam)
 pTime = 0
 detector = htm.HandDetector(maxHands=1)
+wScr, hScr = pyautogui.size()
+print(wScr, hScr)
 
 
 while True:
@@ -25,8 +28,15 @@ while True:
         print(x1, y1, x2, y2)
 
         fingers = detector.fingersUp()
-        print(fingers)
-        
+        #print(fingers)
+        cv2.rectangle(img, (frameR, frameR), (wCam - frameR, hCam-frameR),
+                          (255,0,255), 2)
+        if fingers[1] == 1 and fingers[2] == 0:
+            
+            x3 = np.interp(x1, (0,wCam), (0,wScr))
+            y3 = np.interp(y1, (0,hCam), (0,hScr))
+            pyautogui.moveTo(wScr - x3, y3)
+            cv2.circle(img, (x1, y1), 15,(255,0,255), cv2.FILLED)
         
 
     # frame rate
